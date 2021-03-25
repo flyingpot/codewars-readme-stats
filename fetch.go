@@ -2,8 +2,8 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
@@ -36,14 +36,14 @@ type UserInfo struct {
 	} `json:"codeChallenges"`
 }
 
-func fetch(username string) UserInfo {
+func fetch(username string) (*UserInfo, error) {
 	resp, err := http.Get("https://www.codewars.com/api/v1/users/" + username)
 	if err != nil {
-		log.Fatal("get codewars api error")
+		return nil, errors.New("Get error")
 	}
 	defer resp.Body.Close()
 	body, _ := ioutil.ReadAll(resp.Body)
 	var info UserInfo
 	json.Unmarshal(body, &info)
-	return info
+	return &info, nil
 }
