@@ -30,6 +30,8 @@ func generateSvg(w http.ResponseWriter, req *http.Request) {
 	var username string
 	if !present || len(usernames) == 0 {
 		username = "flyingpot"
+	} else {
+		username = usernames[0]
 	}
 	info, error := fetch(username)
 	if error != nil {
