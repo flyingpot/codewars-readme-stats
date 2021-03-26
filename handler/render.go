@@ -1,4 +1,4 @@
-package api
+package handler
 
 import (
 	"fmt"
@@ -21,7 +21,7 @@ _________            .___
 
 var toCenterInfo = `Username: %s Rank: %s`
 
-func render(userInfo *UserInfo) string {
+func Render(userInfo *UserInfo) string {
 	return fmt.Sprintf(codewarsTemplate, center(
 		fmt.Sprintf(toCenterInfo, userInfo.Username, userInfo.Ranks.Overall.Name),
 		getWidth(codewarsTemplate)))

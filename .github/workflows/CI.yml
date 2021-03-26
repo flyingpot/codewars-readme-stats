@@ -1,25 +1,29 @@
-name: Go
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
+name: build
+on: [push, pull_request]
 jobs:
-
-  build:
-    runs-on: ubuntu-latest
+  test:
+    strategy:
+      matrix:
+        go-version: [1.11.x, 1.12.x, 1.13.x, 1.14.x, 1.15.x, 1.16.x]
+        platform: [ubuntu-latest]
+    runs-on: ${{ matrix.platform }}
+    env:
+      GO111MODULE: "on"
     steps:
-    - uses: actions/checkout@v2
 
-    - name: Set up Go
-      uses: actions/setup-go@v2
+    - name: Install Go
+      uses: actions/setup-go@v1
       with:
-        go-version: 1.15
+        go-version: ${{ matrix.go-version }}
 
-    - name: Unit Test
-      run: go test
+    - name: Checkout code
+      uses: actions/checkout@v1
+
+    - name: Download Go modules
+      run: go mod download
+
+    - name: Build
+      run: go build -v ./...
 
     - name: Test
-      run: go test -v ./...
+      run: go test ./...

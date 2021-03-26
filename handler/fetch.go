@@ -1,4 +1,4 @@
-package api
+package handler
 
 import (
 	"encoding/json"
@@ -36,7 +36,7 @@ type UserInfo struct {
 	} `json:"codeChallenges"`
 }
 
-func fetch(username string) (*UserInfo, error) {
+func Fetch(username string) (*UserInfo, error) {
 	resp, err := http.Get("https://www.codewars.com/api/v1/users/" + username)
 	if err != nil {
 		return nil, errors.New("Get error")

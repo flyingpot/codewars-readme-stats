@@ -1,4 +1,4 @@
-package api_test
+package handler
 
 import (
 	"testing"
@@ -22,7 +22,7 @@ func TestRender(t *testing.T) {
 	var mockInfo UserInfo
 	mockInfo.Username = "test_name"
 	mockInfo.Ranks.Overall.Name = "test_rank"
-	result := render(&mockInfo)
+	result := Render(&mockInfo)
 	if expectedResult != result {
 		t.Errorf("%s to be expected, but got %s", expectedResult, result)
 	}

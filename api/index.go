@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/flyingpot/codewars-readme-stats/handler"
+
 	"github.com/golang/freetype"
 	"github.com/hqbobo/text2pic"
 )
@@ -19,7 +21,7 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 	} else {
 		username = usernames[0]
 	}
-	info, error := fetch(username)
+	info, error := handler.Fetch(username)
 	if error != nil {
 		http.Error(w, "get stats error", http.StatusInternalServerError)
 		return
@@ -36,7 +38,7 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	pic := text2pic.NewTextPicture(text2pic.Configure{Width: 1500, BgColor: text2pic.ColorWhite})
-	for _, line := range strings.Split(render(info), "\n") {
+	for _, line := range strings.Split(handler.Render(info), "\n") {
 		if len(line) == 0 {
 			continue
 		}
