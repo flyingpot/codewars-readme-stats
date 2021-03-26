@@ -1,30 +1,16 @@
-package main
+package api
 
 import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"strings"
 
 	"github.com/golang/freetype"
-
 	"github.com/hqbobo/text2pic"
 )
 
-func main() {
-	http.Handle("/", http.HandlerFunc(generateSvg))
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-	err := http.ListenAndServe(":"+port, nil)
-	if err != nil {
-		log.Fatal("ListenAndServe:", err)
-	}
-}
-
-func generateSvg(w http.ResponseWriter, req *http.Request) {
+func Handler(w http.ResponseWriter, req *http.Request) {
 	query := req.URL.Query()
 	usernames, present := query["username"]
 	var username string
